@@ -55,7 +55,7 @@ Develop a backend system that allows the creation, retrieval, and management of 
   "team_b": "OSFP",
   "sport": 1
 }
-
+```
 # MatchOdds API - Dockerized Setup
 
 This project provides a fully containerized Spring Boot REST API with a PostgreSQL database using Docker Compose.
@@ -68,8 +68,6 @@ This project provides a fully containerized Spring Boot REST API with a PostgreS
 ## Quick Start
 
 ### 1. Build the Spring Boot Jar
-
-```
 
 ./mvnw clean package
 
