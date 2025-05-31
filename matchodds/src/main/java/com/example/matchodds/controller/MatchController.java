@@ -1,65 +1,53 @@
 package com.example.matchodds.controller;
 
-import com.example.matchodds.Match;
 import com.example.matchodds.service.MatchService;
-import com.example.matchodds.dto.MatchDTO;
+import com.example.matchodds.service.dto.MatchDTO;
+import com.example.matchodds.service.dto.MatchPartialDTO;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/matches")
 public class MatchController {
     private final MatchService matchService;
 
+    @Autowired
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
 
     @GetMapping
-    public List<MatchDTO> getAllMatches() {
-        return matchService.findAll().stream().map(MatchDTO::fromEntity).collect(Collectors.toList());
+    public ResponseEntity<List<MatchDTO>> getAllMatches() {
+        return ResponseEntity.ok().body(matchService.getAllMatches());
     }
 
     @GetMapping("/{id}")
-    public MatchDTO getMatchById(@PathVariable Long id) {
-        return matchService.findById(id)
-                .map(MatchDTO::fromEntity)
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found with id " + id));
+    public ResponseEntity<MatchDTO> getMatchById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(matchService.getMatchById(id));
     }
 
     @PostMapping
     public MatchDTO createMatch(@RequestBody @Valid MatchDTO matchDTO) {
-        return matchService.findByDescriptionAndMatchDate(matchDTO.description, matchDTO.matchDate)
-                .map(existing -> {
-                    throw new DuplicateResourceException("Match already exists with description '" + matchDTO.description + "' and date '" + matchDTO.matchDate + "'");
-                })
-                .orElseGet(() -> {
-                    Match match = matchDTO.toEntity();
-                    return MatchDTO.fromEntity(matchService.save(match));
-                });
+        return ResponseEntity.ok().body(matchService.createMatch(matchDTO)).getBody();
     }
 
     @PutMapping("/{id}")
-    public MatchDTO updateMatch(@PathVariable Long id, @RequestBody @Valid MatchDTO matchDTO) {
-        return matchService.findById(id)
-                .map(existing -> {
-                    Match updated = matchDTO.toEntity();
-                    updated.setId(id);
-                    return MatchDTO.fromEntity(matchService.save(updated));
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found with id " + id));
+    public ResponseEntity<MatchDTO> updateMatch(@PathVariable Long id, @RequestBody @Valid MatchDTO matchDTO) {
+        return ResponseEntity.ok().body(matchService.updateMatch(id, matchDTO));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<MatchDTO> partialUpdateMatch(@PathVariable Long id,
+                                                       @RequestBody MatchPartialDTO partialDTO) {
+        return ResponseEntity.ok().body(matchService.partialUpdateMatch(id, partialDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMatch(@PathVariable Long id) {
-        return matchService.findById(id)
-                .map(existing -> {
-                    matchService.deleteById(id);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Match not found with id " + id));
+        matchService.deleteMatch(id);
+        return ResponseEntity.noContent().build();
     }
-} 
+}

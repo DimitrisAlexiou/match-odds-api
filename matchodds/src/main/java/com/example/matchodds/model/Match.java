@@ -1,44 +1,42 @@
-package com.example.matchodds;
+package com.example.matchodds.model;
 
+import com.example.matchodds.enums.Sport;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "match")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @Column(name = "description")
     private String description;
 
     @NotNull
+    @Column(name = "match_date")
     private LocalDate matchDate;
 
     @NotNull
-    private LocalTime matchTime;
+    @Column(name = "match_time")
+    private String matchTime;
 
-    @NotBlank
+    @Column(name = "team_a")
     private String teamA;
 
-    @NotBlank
+    @Column(name = "team_b")
     private String teamB;
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
+    @Column(name = "sport")
     private Sport sport;
-
-    public enum Sport {
-        FOOTBALL, // 0
-        BASKETBALL // 1
-    }
-} 
+}

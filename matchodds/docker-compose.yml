@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16.2
     container_name: matchodds-db
     environment:
       POSTGRES_DB: matchodds
@@ -33,7 +31,7 @@ services:
       [
         'sh',
         '-c',
-        'until pg_isready -h db -p 5432; do sleep 1; done; exec java -jar app.jar',
+        'until nc -z db 5432; do echo waiting for db; sleep 1; done; exec java -jar app.jar',
       ]
 
 volumes:

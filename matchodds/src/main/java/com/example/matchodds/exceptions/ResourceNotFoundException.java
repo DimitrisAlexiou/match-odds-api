@@ -1,4 +1,4 @@
-package com.example.matchodds.controller;
+package com.example.matchodds.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

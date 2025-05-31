@@ -1,4 +1,4 @@
-package com.example.matchodds.controller;
+package com.example.matchodds.exceptions;
 
 public class DuplicateResourceException extends RuntimeException {
     public DuplicateResourceException(String message) {
