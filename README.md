@@ -47,7 +47,6 @@ Develop a backend system that allows the creation, retrieval, and management of 
 
 ```json
 {
-  "id": 1,
   "description": "PAO-OSFP",
   "match_date": "2025-03-31",
   "match_time": "21:00",
@@ -67,9 +66,12 @@ This project provides a fully containerized Spring Boot REST API with a PostgreS
 
 ## Quick Start
 
+```
 ### 1. Build the Spring Boot Jar
 
-./mvnw clean package
+```
+
+./mvnw clean package or mvn clean install -DskipTests
 
 ```
 
@@ -82,10 +84,12 @@ docker-compose up --build
 ```
 
 - The API will be available at: [http://localhost:8080](http://localhost:8080)
-- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- Swagger UI: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - PostgreSQL will be available on port **55432** (localhost:55432)
 
 ### 3. Connect to the Database (optional)
+
+```
 
 You can connect to the database using any PostgreSQL client:
 
@@ -94,6 +98,8 @@ You can connect to the database using any PostgreSQL client:
 - **Database:** `matchodds`
 - **Username:** `postgres`
 - **Password:** `postgres`
+
+```
 
 ### 4. Stopping and Cleaning Up
 
